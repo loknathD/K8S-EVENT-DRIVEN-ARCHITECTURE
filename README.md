@@ -29,10 +29,10 @@ Installation Steps
    - Monitor: `kubectl get pods -n scaling-demo -w`, `kubectl get nodes -w`.
 8. Cleanup: `kubectl delete -f .` and uninstall charts.
 
-ENJOY :)
-
 ## Troubleshooting
 - Lag not triggering? Check Kafka bootstrap servers.
 - Nodes not provisioning? Verify Karpenter IAM roles and tags.
 
 Fork and contribute!
+
+ENJOY :)
