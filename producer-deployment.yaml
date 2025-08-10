@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  namespace: scaling-demo
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+      - name: producer
+        image: confluentinc/cp-kafka:7.6.1
+        command: ["/bin/sh", "-c"]
+        args:
+        - while true; do echo '{"order_id": $(date +%s), "items": [{"price": $(echo $RANDOM % 50 + 1 | bc)}, {"price": $(echo $RANDOM % 50 + 1 | bc)}]}' | kafka-console-producer --broker-list kafka-cluster-kafka-bootstrap:9092 --topic test-topic; sleep 0.5; done
