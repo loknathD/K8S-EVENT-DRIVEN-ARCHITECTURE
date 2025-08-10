@@ -1,0 +1,5 @@
+{"order_id": "ORD-001", "items": [{"price": 10.50}, {"price": 20.30}, {"price": 15.75}]}
+{"order_id": "ORD-002", "items": [{"price": 25.00}, {"price": 35.50}]}
+{"order_id": "ORD-003", "items": [{"price": 5.25}, {"price": 12.80}, {"price": 8.90}]}
+{"order_id": "ORD-004", "items": [{"price": 45.60}]}
+{"order_id": "ORD-005", "items": [{"price": 30.00}, {"price": 40.00}, {"price": 50.00}]}
