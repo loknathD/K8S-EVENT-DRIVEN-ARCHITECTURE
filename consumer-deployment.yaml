@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  namespace: scaling-demo
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - name: consumer
+        image: loknathprasad/kafka-consumer:latest
+        resources:
+          requests:
+            cpu: "700m"  
+            memory: "768Mi"
+          limits:
+            cpu: "1.5"   
+            memory: "1.5Gi"
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-cluster-kafka-bootstrap.scaling-demo.svc.cluster.local:9092"
+        - name: KAFKA_TOPIC
+          value: "test-topic"
+        - name: KAFKA_GROUP_ID
+          value: "keda-consumer-group"
+        livenessProbe:
+          exec:
+            command: ["python", "-c", "import socket; socket.create_connection(('localhost', 9092), timeout=5)"]
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command: ["python", "-c", "import kafka; KafkaConsumer('test-topic', bootstrap_servers='localhost:9092').poll(timeout_ms=5000)"]
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        tolerations:
+        - key: "workload"
+          operator: "Equal"
+          value: "event-driven"
+          effect: "NoSchedule"
