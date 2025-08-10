@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: kafka-consumer-pdb
+  namespace: scaling-demo
+spec:
+  minAvailable: 50% 
+  selector:
+    matchLabels:
+      app: kafka-consumer
